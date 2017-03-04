@@ -1,14 +1,21 @@
 (ns monitor.handler
-  (:require [monitor.config :refer [api-defaults]]
-            [compojure.core :refer :all]
+  (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults]])
-  (:use [clojure.repl :only (source)]))
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.json :refer [wrap-json-params]])
+  (:use [clojure.repl :refer [source]]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
-  (POST "/" [] "post")
+  #_(GET "/" [] {:status "ok"
+               :data "Back when PHP had less than 100 functions and the function hashing mechanism was strlen()"})
+  (POST "/" request
+        request)
   (route/not-found "Not Found"))
 
 (def app
-  (wrap-defaults app-routes api-defaults))
+  (-> app-routes
+      #_(wrap-defaults api-defaults)
+      wrap-keyword-params
+      wrap-json-params))
