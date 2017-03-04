@@ -29,3 +29,10 @@
 
 (defn all []
   (:cameras @db))
+
+(defn get-heartbeat []
+  (let [heartbeat (try (read-string (slurp "heartbeat")) (catch Exception e 0))]
+    {:status :ok
+     :data {:heartbeat heartbeat}}))
+
+

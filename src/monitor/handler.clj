@@ -16,6 +16,8 @@
        (response (cameras/by-id (:id params))))
   (GET "/cameras" _
        (response (cameras/all)))
+  (GET "/heartbeat" _
+       (response (cameras/get-heartbeat)))
   (POST "/update" {:keys [params]}
         (cameras/process-update params)
         (response {:status :ok}))
