@@ -1,6 +1,7 @@
 (ns monitor.cameras
   (:require [clj-time.core :as time]
-            [clj-time.coerce :as tc]))
+            [clj-time.coerce :as tc]
+            [clojure.data.json :as json]))
 
 (def db (atom {:cameras {}}))
 
@@ -31,8 +32,7 @@
   (:cameras @db))
 
 (defn get-heartbeat []
-  (let [heartbeat (try (read-string (slurp "heartbeat")) (catch Exception e 0))]
+  (let [file (try (json/read-str (slurp "heartbeat")) (catch Exception e nil))]
     {:status :ok
-     :data {:heartbeat heartbeat}}))
-
-
+     :data {:heartbeat (get file "bpm")
+            :face (get file "face")}}))
