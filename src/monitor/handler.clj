@@ -5,15 +5,19 @@
             [ring.middleware.json :refer [wrap-json-params wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response]]
             [cognitect.transit :as transit]
-            [monitor.eval.store :as store])
+            [monitor.cameras :as cameras])
   (:use [clojure.repl :refer [source]]))
 
 (defroutes app-routes
   (GET "/" [] (response {:status :ok
                          :data {:quote "Back when PHP had less than 100 functions and the function hashing mechanism was strlen()"
                                 :author "The author of PHP"}}))
-  (POST "/update" request
-        (store/process-update request)
+  (GET "/camera/:id{[0-9]+}" {:keys [params]}
+       (response (cameras/by-id (:id params))))
+  (GET "/cameras" _
+       (response (cameras/all)))
+  (POST "/update" {:keys [params]}
+        (cameras/process-update params)
         (response {:status :ok}))
   (route/not-found "Not Found"))
 
@@ -22,4 +26,4 @@
       (wrap-json-body {:keywords? true :bigdecimals? true})
       wrap-keyword-params
       wrap-json-params
-      (wrap-json-response app-routes)))
+      wrap-json-response))

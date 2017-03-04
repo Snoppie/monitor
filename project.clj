@@ -11,7 +11,8 @@
                  [com.cemerick/friend "0.2.3"]]
   :plugins [[lein-ring "0.9.7"]
             [lein-ancient "0.6.10"]]
-  :ring {:handler monitor.handler/app}
+  :ring {:handler monitor.handler/app
+         :nrepl {:start? true}}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}})
