@@ -1,15 +1,19 @@
-(ns monitor.eval.store)
+(ns monitor.eval.store
+  (:require [clj-time.core :as time]
+            [clj-time.coerce :as tc]))
 
-(def db (atom {:cameras [{:id 0
-                          :data nil}]}))
+(def db (atom {:cameras {}}))
 
-(defn- update-camera! [{:keys [id data] :as vals}]
-  (swap! db assoc-in [:cameras id] vals))
+(defn- add-timestamp [data]
+  (assoc data :time (tc/to-date (time/now))))
+
+(defn- update-camera! [{:keys [id data]}]
+  (let [with-time (add-timestamp data)]
+    (swap! db update-in [:cameras id] conj with-time)))
 
 ;; @db
-;; (update-camera! {:id 0 :data {:message "Muuuh!"}})
-;; (update-camera! {:id 1 :data {:message "Oi!"}})
+;; (update-camera! {:id 0 :data {:data "Muuuh!"}})
+;; (update-camera! {:id 1 :data {:data "Oi!"}})
 
 (defn process-update [{:keys [params]}]
-  (update-camera! params)
-  (println @db))
+  (update-camera! params))
