@@ -7,6 +7,7 @@
                  [compojure "1.5.2"]
                  [ring/ring-defaults "0.2.3"]
                  [ring/ring-json "0.4.0"]
+                 [jumblerg/ring.middleware.cors "1.0.1"]
                  [com.cognitect/transit-clj "0.8.297"]
                  [org.clojure/data.json "0.2.6"]
                  [com.cemerick/friend "0.2.3"]]

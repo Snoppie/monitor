@@ -2,8 +2,8 @@
   (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :as route]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [ring.middleware.defaults :refer [api-defaults]]
             [ring.middleware.json :refer [wrap-json-params wrap-json-response wrap-json-body]]
+            [ring.middleware.cors :refer [wrap-cors]]
             [ring.util.response :refer [response]]
             [cognitect.transit :as transit]
             [monitor.cameras :as cameras])
@@ -30,7 +30,7 @@
       wrap-keyword-params
       wrap-json-params
       wrap-json-response
-      api-defaults))
+      (wrap-cors identity)))
 
 ;; (require '[clojure.repl :refer :all])
-
+(source wrap-cors)
