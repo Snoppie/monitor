@@ -32,7 +32,7 @@
   (:cameras @db))
 
 (defn get-heartbeat []
-  (let [file (try (json/read-str (slurp "heartbeat")) (catch Exception e nil))]
+  (let [file (:data (first (get-in @db [:cameras 0])))]
     {:status :ok
-     :data {:heartbeat (get file "bpm")
-            :face (get file "face")}}))
+     :data {:heartbeat (:bpm file)
+            :face (:face file)}}))
