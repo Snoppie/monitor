@@ -15,6 +15,8 @@
                                 :author "The author of PHP"}}))
   (GET "/camera/:id{[0-9]+}" {:keys [params]}
        (response (cameras/by-id (:id params))))
+  (GET "/camera/:id{[0-9]+}/latest" {:keys [params]}
+       (response (cameras/latest-by-id (:id params))))
   (GET "/cameras" _
        (response (cameras/all)))
   (GET "/heartbeat" _

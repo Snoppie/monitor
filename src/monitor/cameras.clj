@@ -28,6 +28,9 @@
 (defn by-id [id]
   (get-in @db [:cameras id]))
 
+(defn latest-by-id [id]
+  (first (get-in @db [:cameras 0])))
+
 (defn all []
   (:cameras @db))
 
