@@ -2,6 +2,7 @@
   (:require [compojure.core :refer [GET POST defroutes]]
             [compojure.route :as route]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.defaults :refer [api-defaults]]
             [ring.middleware.json :refer [wrap-json-params wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response]]
             [cognitect.transit :as transit]
@@ -28,4 +29,8 @@
       (wrap-json-body {:keywords? true :bigdecimals? true})
       wrap-keyword-params
       wrap-json-params
-      wrap-json-response))
+      wrap-json-response
+      api-defaults))
+
+;; (require '[clojure.repl :refer :all])
+
